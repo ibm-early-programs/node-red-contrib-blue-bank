@@ -7,15 +7,13 @@ module.exports = function(RED) {
         var node = this;
         var url  = "https://bluebank.azure-api.net/api/v0.7/";
 
-        console.log(config);
-
-        var method = config.method;
-        var customer = config.customer;
-        var account = config.account;
-        var key  = config.key;
-        var auth = config.auth;
-
         this.on("input", function(msg) {
+            var method   = msg.method     || config.method;
+            var customer = msg.customerId || config.customer;
+            var account  = msg.accountId  || config.account;
+            var key  = msg.key  || config.key;
+            var auth = msg.auth || config.auth;
+
             var options = {
                 method: "GET",
                 headers: {
@@ -45,7 +43,7 @@ module.exports = function(RED) {
                     node.status({fill:"red", shape:"ring", text:"Request failed"});
                 } else {
                     var response = JSON.parse(body);
-                    msg.result = body;
+                    msg.payload = response;
                     node.send(msg);
                 }
             });

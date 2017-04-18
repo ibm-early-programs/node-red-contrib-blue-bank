@@ -9,11 +9,11 @@
         <option value="getCustomers">Get Customers</option>
         </select>
     </div>
-    <div class="form-row">
+    <div class="form-row" id="node-input-container-account">
         <label for="node-input-account" style="width: 130px;"><i class="icon-tag"></i> Account ID</label>
         <input id="node-input-account" type="text">
     </div>
-    <div class="form-row">
+    <div class="form-row" id="node-input-container-customer">
         <label for="node-input-customer" style="width: 130px;"><i class="icon-tag"></i> Customer ID</label>
         <input id="node-input-customer" type="text">
     </div>
@@ -40,23 +40,26 @@
     </p>
     <ul>
         <li>
-            <code>Method</code> is the API call to use. Only <code>Get Accounts</code> is currently available. This performs a <code>GET</code> request to <code>/accounts/{id}</code>
+            <code>Method</code> is the API call to use. Some methods require an account ID, some require a customer ID. Can be overridden by <code>msg.method</code>.
         </li>
         <li>
-            <code>ID</code> is the user ID of the account you want to get.
+            <code>Account ID</code> is the account ID. Can be overridden by <code>msg.accountId</code>.
         </li>
         <li>
-            <code>Subscription Key</code> is the subscription key for the Blue Bank API v0.7 found in your <a href="https://bluebank.portal.azure-api.net/developer">profile</a>.
+            <code>Customer ID</code> is the customer ID. Can be overridden by <code>msg.customerId</code>.
         </li>
         <li>
-            <code>Authorization</code> is the Bearer Token used for authenticating requests. You can find it <a href="https://bb-customers.azurewebsites.net/">here</a>. <strong>This token is used for testing purposes and expires.</strong>
+            <code>Subscription Key</code> is the subscription key for the Blue Bank API v0.7 found in your <a href="https://bluebank.portal.azure-api.net/developer">profile</a>. Can be overridden by <code>msg.key</code>.
+        </li>
+        <li>
+            <code>Authorization</code> is the Bearer Token used for authenticating requests. You can find it <a href="https://bb-customers.azurewebsites.net/">here</a>. <strong>This token is used for testing purposes and expires.</strong> Can be overridden by <code>msg.auth</code>.
         </li>
         <li>
             <code>Name</code> is the custom name of the node.
         </li>
     </ul>
     <p>
-        The result will be stored in <code>msg.result</code>.
+        The result will be stored in <code>msg.payload</code>.
     </p>
 </script>
 
@@ -66,11 +69,11 @@
         color: '#79abd6',
         defaults: {
             name: {value:""},
-            customer: {value:"",required:true},
-            account: {value:"",required:true},
-            key: {value:"",required:true},
-            auth: {value:"",required:true},
-            method: {value:""}
+            customer: {value:""},
+            account: {value:""},
+            key: {value:""},
+            auth: {value:""},
+            method: {value:"getAccount"}
         },
         inputs:1,
         outputs:1,
@@ -80,6 +83,22 @@
         },
         labelStyle: function() {
             return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-method").change(function() {
+                var type = $("#node-input-method option:selected").val();
+                if (type === "getAccount" || type === "getTransactions") {
+                    $("#node-input-container-account").show();
+                    $("#node-input-container-customer").hide();
+                } else if (type === "getCustomers") {
+                    $("#node-input-container-account").hide();
+                    $("#node-input-container-customer").hide();
+                } else {
+                    $("#node-input-container-account").hide();
+                    $("#node-input-container-customer").show();
+                }
+            });
+            $("#node-input-method").change();
         }
     });
 </script>
