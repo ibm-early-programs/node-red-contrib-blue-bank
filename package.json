@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "keywords": [
     "node-red",
-    "open bank"
+    "blue bank"
   ],
   "contributors": [ {
       "name": "Anna Thomas",
@@ -21,7 +21,7 @@
   ],
   "node-red": {
     "nodes": {
-      "open-bank": "nodes/open-bank.js"
+      "blue-bank": "nodes/blue-bank.js"
     }
   }
 }
