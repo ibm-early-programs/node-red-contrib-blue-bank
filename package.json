@@ -1,0 +1,27 @@
+{
+  "name": "node-red-contrib-blue-bank",
+  "version": "0.0.1",
+  "description": "A node exposing the Blue Bank #BankOfApis",
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibm-early-programs/node-red-contrib-blue-bank"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "open bank"
+  ],
+  "contributors": [ {
+      "name": "Anna Thomas",
+      "email": "annaet@uk.ibm.com"
+    }
+  ],
+  "node-red": {
+    "nodes": {
+      "open-bank": "nodes/open-bank.js"
+    }
+  }
+}

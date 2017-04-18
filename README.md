@@ -1,2 +1,2 @@
-# node-red-contrib-open-bank
-Exposes the Open Bank #BankOfApis
+# node-red-contrib-blue-bank
+Exposes the Blue Bank #BankOfApis
