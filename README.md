@@ -20,9 +20,9 @@ Run the following command in the root directory of your Node-RED install:
 
 All methods require:
 
-* Subscription Key
+* `Subscription Key`
     * Found under [Your Subscriptions, Primary Key](https://bluebank.portal.azure-api.net/developer)
-* Authorization Token
+* `Authorization Token`
     * Click Get Bearer Token [here](https://bb-customers.azurewebsites.net/)
 
 **Get Account** `/accounts/{id} - GET` 
@@ -31,7 +31,7 @@ This returns a full Account object for the given id.
 
 Extra Requirements:
 
-* Account ID
+* `Account ID`
 
 **Get Accounts** `/customers/{id}/accounts - GET` 
 
@@ -39,7 +39,7 @@ Use this call to enumerate the list of accounts for the specified user.
 
 Extra Requirements:
 
-* Customer ID
+* `Customer ID`
 
 **Get Transactions** `/accounts/{id}/transactions - GET` 
 
@@ -47,7 +47,7 @@ Returns a set of Transaction objects for the specified account.
 
 Extra Requirements:
 
-* Account ID
+* `Account ID`
 
 **Get Customer** `/customers/{id} - GET` 
 
@@ -55,7 +55,7 @@ Use this call to return a specific Customer object, if you know the id.
 
 Extra Requirements:
 
-* Customer ID
+* `Customer ID`
 
 **Get Customers** `/customers - GET` 
 
