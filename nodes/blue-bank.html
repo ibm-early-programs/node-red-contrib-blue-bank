@@ -3,9 +3,11 @@
         <label for="node-input-method" style="width: 130px;"><i class="fa fa-tasks"></i> Method</label>
         <select type="text" id="node-input-method" style="width:70%;">
         <option value="getAccount">Get Account</option>
+        <option value="updateAccount">Update Account</option>
         <option value="getAccounts">Get Accounts</option>
         <option value="getTransactions">Get Transactions</option>
         <option value="getCustomer">Get Customer</option>
+        <option value="updateCustomer">Update Customer</option>
         <option value="getCustomers">Get Customers</option>
         </select>
     </div>
@@ -59,6 +61,35 @@
         </li>
     </ul>
     <p>
+        Available methods are:
+    </p>
+    <ul>
+        <li>
+            <strong>Get Account</strong>
+        </li>
+        <li>
+            <strong>Update Account</strong> - updates <code>msg.payload.accountFriendlyName</code>
+        </li>
+        <li>
+            <strong>Get Accounts</strong>
+        </li>
+        <li>
+            <strong>Get Transactions</strong>
+        </li>
+        <li>
+            <strong>Get Customer</strong>
+        </li>
+        <li>
+            <strong>Update Customer</strong> - updates <code>msg.payload.mobilePhone</code>
+        </li>
+        <li>
+            <strong>Get Customers</strong>
+        </li>
+    </ul>
+    <p>
+        More detail can be found about the methods on <a href="https://github.com/ibm-early-programs/node-red-contrib-blue-bank">Github</a>.
+    </p>
+    <p>
         The result will be stored in <code>msg.payload</code>.
     </p>
 </script>
@@ -87,15 +118,18 @@
         oneditprepare: function() {
             $("#node-input-method").change(function() {
                 var type = $("#node-input-method option:selected").val();
-                if (type === "getAccount" || type === "getTransactions") {
+                if (type === "getAccount" ||
+                    type === "getTransactions" ||
+                    type === "updateAccount") {
                     $("#node-input-container-account").show();
                     $("#node-input-container-customer").hide();
-                } else if (type === "getCustomers") {
-                    $("#node-input-container-account").hide();
-                    $("#node-input-container-customer").hide();
-                } else {
+                } else if (type === "getCustomer" ||
+                           type === "updateCustomer") {
                     $("#node-input-container-account").hide();
                     $("#node-input-container-customer").show();
+                } else {
+                    $("#node-input-container-account").hide();
+                    $("#node-input-container-customer").hide();
                 }
             });
             $("#node-input-method").change();

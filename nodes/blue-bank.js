@@ -19,17 +19,30 @@ module.exports = function(RED) {
                 headers: {
                     "Ocp-Apim-Subscription-Key": key,
                     "Authorization": auth
-                }
+                },
+                json: true
             }
 
             if (method === "getAccount") {
                 options.url = url + "accounts/" + account;
+            } else if (method === "updateAccount") {
+                options.url = url + "accounts/" + account;
+                options.method = "PATCH";
+                options.body = {
+                    "accountFriendlyName": msg.payload.accountFriendlyName
+                }
             } else if (method === "getAccounts") {
                 options.url = url + "customers/" + customer + "/accounts";
             } else if (method === "getTransactions") {
                 options.url = url + "accounts/" + account + "/transactions";
             } else if (method === "getCustomer") {
                 options.url = url + "customers/" + customer;
+            } else if (method === "updateCustomer") {
+                options.url = url + "customers/" + customer;
+                options.method = "PATCH";
+                options.body = {
+                    "mobilePhone": msg.payload.mobilePhone
+                }
             } else if (method === "getCustomers") {
                 options.url = url + "customers";
             } else {
@@ -43,9 +56,15 @@ module.exports = function(RED) {
                     node.error(error, msg);
                     node.status({fill:"red", shape:"ring", text:"Request failed"});
                 } else {
-                    var response = JSON.parse(body);
-                    msg.payload = response;
-                    node.send(msg);
+                    if (body.errorMessage) {
+                        node.error(body.errorMessage, msg);
+                        node.status({fill:"red", shape:"ring", text:"Request failed"});
+                    } else {
+                        msg.payload = body;
+                        node.status({});
+                        node.send(msg);
+                    }
+
                 }
             });
         });

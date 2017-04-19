@@ -25,7 +25,7 @@ All methods require:
 * `Authorization Token`
     * Click Get Bearer Token [here](https://bb-customers.azurewebsites.net/)
 
-**Get Account** `/accounts/{id} - GET` 
+**Get Account** `/accounts/{id} - GET`
 
 This returns a full Account object for the given id.
 
@@ -33,7 +33,13 @@ Extra Requirements:
 
 * `Account ID`
 
-**Get Accounts** `/customers/{id}/accounts - GET` 
+**Update Account** `/accounts/{id} - PATCH`
+
+By design, only the `accountFriendlyName` property can be updated by API. Other fields are reserved by the Bank and any attempts to change to them will be ignored.
+
+Expects the property on `msg.payload.accountFriendlyName`.
+
+**Get Accounts** `/customers/{id}/accounts - GET`
 
 Use this call to enumerate the list of accounts for the specified user.
 
@@ -41,7 +47,7 @@ Extra Requirements:
 
 * `Customer ID`
 
-**Get Transactions** `/accounts/{id}/transactions - GET` 
+**Get Transactions** `/accounts/{id}/transactions - GET`
 
 Returns a set of Transaction objects for the specified account.
 
@@ -49,7 +55,7 @@ Extra Requirements:
 
 * `Account ID`
 
-**Get Customer** `/customers/{id} - GET` 
+**Get Customer** `/customers/{id} - GET`
 
 Use this call to return a specific Customer object, if you know the id.
 
@@ -57,6 +63,14 @@ Extra Requirements:
 
 * `Customer ID`
 
-**Get Customers** `/customers - GET` 
+**Update Customer** `/customers/{id} - PATCH`
+
+Use this call to update a specific Customer object, if you know the id. At present, the only property which it is possible to update is `mobilePhone`.
+
+Expects the property on `msg.payload.mobilePhone`.
+
+*Note: In a future release, this feature will be available in a customer portal and this PATCH operation will be removed from the public API.*
+
+**Get Customers** `/customers - GET`
 
 This call will return a collection of Customer objects which the currently authenticated user is allowed to see.
