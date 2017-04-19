@@ -1,6 +1,6 @@
 # node-red-contrib-blue-bank
 
-Exposes the Blue Bank #BankOfApis
+Exposes the Blue Bank #BankOfApis [Personal Current Accounts v0.7](https://bluebank.portal.azure-api.net/docs/services/57fd0fd5a1fcf30c74f0346d/operations/57fd0fd7a1fcf30fd022a2b2).
 
 See the [Blue Bank Developer Portal](https://bluebank.portal.azure-api.net/) for more information.
 
