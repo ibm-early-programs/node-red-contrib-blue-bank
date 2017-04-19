@@ -5,14 +5,22 @@ module.exports = function(RED) {
     function BlueBankNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
-        var url  = "https://bluebank.azure-api.net/api/v0.7/";
 
         this.on("input", function(msg) {
-            var method   = msg.method     || config.method;
             var customer = msg.customerId || config.customer;
             var account  = msg.accountId  || config.account;
             var key  = msg.key  || config.key;
             var auth = msg.auth || config.auth;
+            var api  = msg.api  || config.api;
+            var url, method;
+
+            if (api === "v6") {
+                url = "https://bluebank.azure-api.net/api/v0.6.3/";
+                method = msg.method || config["v6-method"];
+            } else {
+                url = "https://bluebank.azure-api.net/api/v0.7/";
+                method = msg.method || config["v7-method"];
+            }
 
             var options = {
                 method: "GET",
@@ -45,6 +53,10 @@ module.exports = function(RED) {
                 }
             } else if (method === "getCustomers") {
                 options.url = url + "customers";
+            } else if (method === "getATMs") {
+                options.url = url + "atms";
+            } else if (method === "getBranches") {
+                options.url = url + "branches";
             } else {
                 node.error('Incorrect method', msg);
                 node.status({fill:"red", shape:"ring", text:"Incorrect method"});

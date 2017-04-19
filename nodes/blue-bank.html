@@ -1,21 +1,35 @@
 <script type="text/x-red" data-template-name="blue-bank">
     <div class="form-row">
-        <label for="node-input-method" style="width: 130px;"><i class="fa fa-tasks"></i> Method</label>
-        <select type="text" id="node-input-method" style="width:70%;">
-        <option value="getAccount">Get Account</option>
-        <option value="updateAccount">Update Account</option>
-        <option value="getAccounts">Get Accounts</option>
-        <option value="getTransactions">Get Transactions</option>
-        <option value="getCustomer">Get Customer</option>
-        <option value="updateCustomer">Update Customer</option>
-        <option value="getCustomers">Get Customers</option>
+        <label for="node-input-api" style="width: 130px;"><i class="fa fa-tasks"></i> API</label>
+        <select type="text" id="node-input-api" style="width:70%;">
+            <option value="v6">v0.6</option>
+            <option value="v7">v0.7</option>
         </select>
     </div>
-    <div class="form-row" id="node-input-container-account">
+    <div class="form-row" id="form-row-v6">
+        <label for="node-input-v6-method" style="width: 130px;"><i class="fa fa-tasks"></i> Method</label>
+        <select type="text" id="node-input-v6-method" style="width:70%;">
+            <option value="getATMs">Get ATMs</option>
+            <option value="getBranches">Get Branches</option>
+        </select>
+    </div>
+    <div class="form-row" id="form-row-v7">
+        <label for="node-input-v7-method" style="width: 130px;"><i class="fa fa-tasks"></i> Method</label>
+        <select type="text" id="node-input-v7-method" style="width:70%;">
+            <option value="getAccount">Get Account</option>
+            <option value="updateAccount">Update Account</option>
+            <option value="getAccounts">Get Accounts</option>
+            <option value="getTransactions">Get Transactions</option>
+            <option value="getCustomer">Get Customer</option>
+            <option value="updateCustomer">Update Customer</option>
+            <option value="getCustomers">Get Customers</option>
+        </select>
+    </div>
+    <div class="form-row" id="form-row-account">
         <label for="node-input-account" style="width: 130px;"><i class="icon-tag"></i> Account ID</label>
         <input id="node-input-account" type="text">
     </div>
-    <div class="form-row" id="node-input-container-customer">
+    <div class="form-row" id="form-row-customer">
         <label for="node-input-customer" style="width: 130px;"><i class="icon-tag"></i> Customer ID</label>
         <input id="node-input-customer" type="text">
     </div>
@@ -100,11 +114,13 @@
         color: '#79abd6',
         defaults: {
             name: {value:""},
+            api: {value:"v7"},
+            'v6-method': {value:"getATMs"},
+            'v7-method': {value:"getAccount"},
             customer: {value:""},
             account: {value:""},
             key: {value:""},
-            auth: {value:""},
-            method: {value:"getAccount"}
+            auth: {value:""}
         },
         inputs:1,
         outputs:1,
@@ -116,23 +132,49 @@
             return this.name?"node_label_italic":"";
         },
         oneditprepare: function() {
-            $("#node-input-method").change(function() {
-                var type = $("#node-input-method option:selected").val();
+            // Change API version
+            $("#node-input-api").change(function() {
+                var api = $("#node-input-api option:selected").val();
+                if (api === "v6") {
+                    $("#form-row-v6").show();
+                    $("#form-row-v7").hide();
+                    $("#node-input-v6-method").change();
+                } else {
+                    $("#form-row-v6").hide();
+                    $("#form-row-v7").show();
+                    $("#node-input-v7-method").change();
+                }
+            })
+
+            // Change v0.7 method
+            $("#node-input-v7-method").change(function() {
+                var type = $("#node-input-v7-method option:selected").val();
                 if (type === "getAccount" ||
                     type === "getTransactions" ||
                     type === "updateAccount") {
-                    $("#node-input-container-account").show();
-                    $("#node-input-container-customer").hide();
+                    $("#form-row-account").show();
+                    $("#form-row-customer").hide();
                 } else if (type === "getCustomer" ||
                            type === "updateCustomer") {
-                    $("#node-input-container-account").hide();
-                    $("#node-input-container-customer").show();
+                    $("#form-row-account").hide();
+                    $("#form-row-customer").show();
                 } else {
-                    $("#node-input-container-account").hide();
-                    $("#node-input-container-customer").hide();
+                    $("#form-row-account").hide();
+                    $("#form-row-customer").hide();
                 }
             });
-            $("#node-input-method").change();
+            $("#node-input-v7-method").change();
+
+            // Change v0.6 method
+            $("#node-input-v6-method").change(function() {
+                var type = $("#node-input-v6-method option:selected").val();
+
+                if (type === "getATMs" || type === "getBranches") {
+                    $("#form-row-account").hide();
+                    $("#form-row-customer").hide();
+                }
+            });
+            $("#node-input-v6-method").change();
         }
     });
 </script>
