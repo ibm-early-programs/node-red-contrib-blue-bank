@@ -35,6 +35,7 @@ module.exports = function(RED) {
             } else {
                 node.error('Incorrect method', msg);
                 node.status({fill:"red", shape:"ring", text:"Incorrect method"});
+                return;
             }
 
             var r = request(options, function(error, response, body) {
